@@ -3,6 +3,7 @@
 
 
 List<IAccount> myAccount = new List<IAccount>();
+Dictionary<string, List<Item>> user_items = new Dictionary<string, List<Item>>();
 
 IAccount active_user = null;
 
@@ -62,9 +63,33 @@ while (running)
   else if (active_user is User u)
   {
     Console.WriteLine("Hej " + u.Name);
-    Console.WriteLine("Logout");
+    Console.WriteLine("\nAdd\nShow\nLogout");
+
     switch (Console.ReadLine())
     {
+      case "add":
+
+        Console.Write("\nYour username: ");
+        string id = Console.ReadLine();
+        Console.Write("\nType of item: ");
+        string new_item = Console.ReadLine();
+        Console.Write("\nDescription of item: ");
+        string new_description = Console.ReadLine();
+
+        user_items[id].Add(new Item(new_item, new_description));
+
+        break;
+
+      case "show":
+
+        foreach (Item item in user_items)
+        {
+          Console.WriteLine(item.Name_Item + " " + item.Description_Item);
+        }
+        Console.ReadLine();
+
+        break;
+
       case "logout":
         active_user = null;
         break;
