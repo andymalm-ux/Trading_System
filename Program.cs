@@ -2,11 +2,11 @@
 
 
 
-List<IAccount> myAccount = new List<IAccount>();
+//List<IAccount> myAccount = new List<IAccount>();
 Dictionary<string, List<Item>> user_items = new Dictionary<string, List<Item>>();
+List<User> myUser = new List<User>();
 
-IAccount active_user = null;
-
+User active_user = null;
 
 bool running = true;
 
@@ -31,7 +31,7 @@ while (running)
           Console.Write("Enter your password: ");
           string _password = Console.ReadLine();
 
-          myAccount.Add(new User(name, email, _password));
+          myUser.Add(new User(name, email, _password));
           break;
 
         case "login":
@@ -41,7 +41,7 @@ while (running)
           Console.Write("Password: ");
           string password = Console.ReadLine();
 
-          foreach (IAccount user in myAccount)
+          foreach (User user in myUser)
           {
             if (user.TryLogin(username, password))
             {
@@ -69,24 +69,41 @@ while (running)
     {
       case "add":
 
-        Console.Write("\nYour username: ");
-        string id = Console.ReadLine();
+        //Console.Write("\nYour username: ");
+        //string id = Console.ReadLine();
         Console.Write("\nType of item: ");
         string new_item = Console.ReadLine();
         Console.Write("\nDescription of item: ");
         string new_description = Console.ReadLine();
+        string user_id = u.Email;
 
-        user_items[id].Add(new Item(new_item, new_description));
+        user_items.Add(user_id, new List<Item>());
+
+        user_items[user_id].Add(new Item(new_item, new_description));
 
         break;
 
       case "show":
+        Console.Write("Enter your username to view your inventory. Else press Enter. ");
+        string _show = Console.ReadLine();
 
-        foreach (Item item in user_items)
+        if (user_items.ContainsKey(_show))
         {
-          Console.WriteLine(item.Name_Item + " " + item.Description_Item);
+          foreach (Item item in user_items[_show])
+          {
+            Console.Write(item.Name_Item + " " + item.Description_Item);
+
+          }
         }
-        Console.ReadLine();
+        else
+        {
+          foreach (Item item in user_items[""])
+          {
+            Console.Write(item.Name_Item + " " + item.Description_Item);
+
+          }
+
+        }
 
         break;
 
