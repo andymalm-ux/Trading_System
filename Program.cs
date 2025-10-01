@@ -1,10 +1,29 @@
 ﻿using App;
 
-
-
-//List<IAccount> myAccount = new List<IAccount>();
 Dictionary<string, List<Item>> user_items = new Dictionary<string, List<Item>>();
 List<User> myUser = new List<User>();
+
+string[] users_csv = File.ReadAllLines("Users.csv");
+string[] account = { };
+string path_u = "Users.csv";
+
+foreach (string user in users_csv)
+{
+  string[] values = user.Split(",");
+
+
+}
+
+string[] items_csv = File.ReadAllLines("Items.csv");
+string path_i = "Items.csv";
+string[] stored_items = { };
+
+foreach (string item in items_csv)
+{
+  string[] values = item.Split(",");
+
+  File.AppendAllLines(path_i, values);
+}
 
 User active_user = null;
 
@@ -32,6 +51,10 @@ while (running)
           string _password = Console.ReadLine();
 
           myUser.Add(new User(name, email, _password));
+
+          account = [name + "," + email + "," + _password];
+          File.AppendAllLines(path_u, account);
+
           break;
 
         case "login":
@@ -80,6 +103,9 @@ while (running)
         user_items.Add(user_id, new List<Item>());
 
         user_items[user_id].Add(new Item(new_item, new_description));
+
+        stored_items = [new_item, new_description];
+        File.WriteAllLines("path_i", stored_items);
 
         break;
 
