@@ -9,9 +9,13 @@ string path_u = "Users.csv";
 
 foreach (string user in users_csv)
 {
-  string[] values = user.Split(",");
-
-
+  if (user == null)
+  {
+    string[] values = user.Split(",");
+    myUser.Add(new User(values[0], values[1], values[2]));
+  }
+  else
+    break;
 }
 
 string[] items_csv = File.ReadAllLines("Items.csv");
