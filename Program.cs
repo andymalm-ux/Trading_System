@@ -1,32 +1,25 @@
 ﻿using App;
 
-Dictionary<string, List<Item>> user_items = new Dictionary<string, List<Item>>();
+List<Item> user_items = new List<Item>();
 List<User> myUser = new List<User>();
 
 string[] users_csv = File.ReadAllLines("Users.csv");
-string[] account = { };
 string path_u = "Users.csv";
 
 foreach (string user in users_csv)
 {
-  if (user == null)
-  {
-    string[] values = user.Split(",");
-    myUser.Add(new User(values[0], values[1], values[2]));
-  }
-  else
-    break;
+  string[] values = user.Split(",");
+  myUser.Add(new User(values[0], values[1], values[2]));
 }
 
 string[] items_csv = File.ReadAllLines("Items.csv");
 string path_i = "Items.csv";
-string[] stored_items = { };
 
 foreach (string item in items_csv)
 {
   string[] values = item.Split(",");
 
-  File.AppendAllLines(path_i, values);
+  user_items.Add(new Item(values[0], values[1], values[2]));
 }
 
 User active_user = null;
@@ -56,7 +49,8 @@ while (running)
 
           myUser.Add(new User(name, email, _password));
 
-          account = [name + "," + email + "," + _password];
+          string[] account = { name + "," + email + "," + _password };
+
           File.AppendAllLines(path_u, account);
 
           break;
@@ -104,36 +98,18 @@ while (running)
         string new_description = Console.ReadLine();
         string user_id = u.Email;
 
-        user_items.Add(user_id, new List<Item>());
+        user_items.Add(new Item(user_id, new_item, new_description));
 
-        user_items[user_id].Add(new Item(new_item, new_description));
-
-        stored_items = [new_item, new_description];
-        File.WriteAllLines("path_i", stored_items);
+        string[] stored_items = { user_id + "," + new_item + "," + new_description };
+        File.AppendAllLines(path_i, stored_items);
 
         break;
 
       case "show":
-        Console.Write("Enter your username to view your inventory. Else press Enter. ");
-        string _show = Console.ReadLine();
 
-        if (user_items.ContainsKey(_show))
-        {
-          foreach (Item item in user_items[_show])
-          {
-            Console.Write(item.Name_Item + " " + item.Description_Item);
 
-          }
-        }
-        else
-        {
-          foreach (Item item in user_items[""])
-          {
-            Console.Write(item.Name_Item + " " + item.Description_Item);
 
-          }
 
-        }
 
         break;
 
